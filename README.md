@@ -1,3 +1,7 @@
+# This repo is a UE5-compatible fork of the original ROSIntegration UE4 plugin (https://github.com/code-iai/ROSIntegration.git). 
+Versions tested: 5.2, 5.4 
+---
+
 # ROSIntegration Plugin for Unreal Engine 4
 This plugin adds ROS support to your Unreal Engine Project. It is designed to be used on different common platforms.
 Currently, Windows and Linux are directly supported.
