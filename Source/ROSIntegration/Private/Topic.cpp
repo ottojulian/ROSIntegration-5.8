@@ -1,4 +1,5 @@
 #include "RI/Topic.h"
+#include "ROSIntegrationCoreImpl.h"
 #include <bson.h>
 #include "rosbridge2cpp/ros_bridge.h"
 #include "rosbridge2cpp/ros_topic.h"
@@ -106,6 +107,16 @@ public:
 	bool Publish(TSharedPtr<FROSBaseMsg> msg)
 	{
 		bson_t *bson_message = nullptr;
+		if (!msg) {
+			UE_LOG(LogROS, Error, TEXT("msg is null in UTopic::Publish()"));
+		}
+		if (!_ROSTopic) {
+			UE_LOG(LogROS, Error, TEXT("_ROSTopic is null in UTopic::Publish()"));
+		}
+		if (!msg || !_ROSTopic) {
+			UE_LOG(LogROS, Error, TEXT("Null pointer detected in UTopic::Publish()"));
+			return false;
+		}
 
 		if (ConvertMessage(msg, &bson_message)) {
 			return _ROSTopic->Publish(bson_message); // bson memory will be freed in the rosbridge core code after the message is published
@@ -152,6 +163,7 @@ public:
 		}
 		_Converter = *Converter;
 
+		auto asd = Ric->_Implementation->Get();
 		_ROSTopic = new rosbridge2cpp::ROSTopic(Ric->_Implementation->Get()->GetBridge(), TCHAR_TO_UTF8(*Topic), TCHAR_TO_UTF8(*MessageType), QueueSize);
 	}
 

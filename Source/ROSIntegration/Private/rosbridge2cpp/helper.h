@@ -3,6 +3,7 @@
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
+#include <iostream>
 #include <bson.h>
 
 using json = rapidjson::Document;

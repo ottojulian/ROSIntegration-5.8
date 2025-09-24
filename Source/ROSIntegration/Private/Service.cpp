@@ -4,6 +4,7 @@
 #include "rosbridge2cpp/ros_service.h"
 #include "Conversion/Services/BaseRequestConverter.h"
 #include "Conversion/Services/BaseResponseConverter.h"
+#include "ROSIntegrationCoreImpl.h"
 
 static TMap<FString, UBaseRequestConverter*> RequestConverterMap;
 static TMap<FString, UBaseResponseConverter*> ResponseConverterMap;

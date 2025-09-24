@@ -39,11 +39,11 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ROS")
 	// Array of IP adresses to connect to. Each element pairs with the corresponding element in ROSBridgeServerPorts
-	TArray<FString> ROSBridgeServerHosts = {"127.0.0.1"};
+	TArray<FString> ROSBridgeServerHosts = {"127.0.0.1", "10.30.3.223"};
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ROS")
 	// Array of ports to connect to. Each element pairs with the corresponding element in ROSBridgeServerHosts
-	TArray<int32> ROSBridgeServerPorts = {9090};
+	TArray<int32> ROSBridgeServerPorts = {9090, 9090};
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ROS", meta=(ClampMin = '1', ClampMax = '2'))
 	uint8 ROSVersion = 1;

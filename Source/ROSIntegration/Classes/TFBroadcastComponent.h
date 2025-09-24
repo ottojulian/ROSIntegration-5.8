@@ -2,6 +2,7 @@
 
 #include <Components/ActorComponent.h>
 #include "RI/Topic.h"
+#include <cassert>
 
 #include "TFBroadcastComponent.generated.h"
 

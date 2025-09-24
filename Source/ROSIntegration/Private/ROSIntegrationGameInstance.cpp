@@ -297,6 +297,14 @@ void UROSIntegrationGameInstance::Shutdown()
 		}
 
 		ShutdownAllROSObjects(); // Stop all ROS objects from advertising, publishing, and subscribing
+
+		for (TObjectIterator<UTopic> It; It; ++It)
+		{
+			UTopic* Topic = *It;
+			Topic->Unadvertise();
+			Topic->Unsubscribe();
+			Topic->MarkAsDisconnected();
+		}
 		MarkAllROSObjectsAsDisconnected(); // Moved here from UROSIntegrationGameInstance::BeginDestroy()
 
 		ConnectedToROSBridge.Reset();

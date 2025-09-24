@@ -8,6 +8,11 @@
 #include "Math/Vector.h"
 #include "ROSBaseMsg.h"
 #include "ROSIntegrationCore.h"
+#include "ROSIntegrationGameInstance.h"
+#include "std_msgs/Float32.h"
+#include "std_msgs/Int32.h" 
+#include "std_msgs/Int64.h"
+#include "geometry_msgs/Twist.h"
 
 #include "Topic.generated.h"
 
@@ -68,6 +73,8 @@ public:
 	bool Reconnect(UROSIntegrationCore* ROSIntegrationCore);
 	
 	bool IsAdvertising();
+
+	bool IsConnected() { return _State.Connected;  }
 
 protected:
 

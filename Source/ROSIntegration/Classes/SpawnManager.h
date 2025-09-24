@@ -6,6 +6,7 @@
 #include "SpawnableObject.h"
 #include "SpawnObjectMessage.h"
 #include <EngineUtils.h>
+#include <cassert>
 
 #include "SpawnManager.generated.h"
 
