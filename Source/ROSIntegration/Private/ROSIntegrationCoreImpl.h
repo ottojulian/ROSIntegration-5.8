@@ -1,3 +1,5 @@
+#pragma once
+
 #include "ROSIntegrationGameInstance.h"
 #include "rosbridge2cpp/TCPConnection.h"
 #include "rosbridge2cpp/WebsocketConnection.h"
@@ -6,6 +8,7 @@
 
 #include "SpawnManager.h"
 #include "SpawnObjectMessage.h"
+#include <sstream>
 
 #define UNREAL_ROS_CHECK_KEY_FOUND \
 	if (!key_found) {\

@@ -9,7 +9,7 @@
 #include "LookAtScanComponent.generated.h"
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class ROSINTEGRATION_API ULookAtScanComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -33,6 +33,7 @@ protected:
 	// Boundary for Y to offset the owning actor
 	UPROPERTY(EditAnywhere, Category = "Offset configuration")
 	float MinOffSetY = -50.0f;
+
 	float CurrentOffsetY = MinOffSetY;
 
 	// Boundary for Y to offset the owning actor
@@ -42,6 +43,7 @@ protected:
 	// Boundary for Z to offset the owning actor
 	UPROPERTY(EditAnywhere, Category = "Offset configuration")
 	float MinOffSetZ = -50.0f;
+
 	float CurrentOffsetZ = MinOffSetZ;
 
 	// Boundary for Z to offset the owning actor
@@ -56,48 +58,44 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Offset configuration")
 	float ZStepSize = 1.0f;
 
-	// On the first TickComponent() with Translation enabled , the owning Actor will be set to: FVector(TargetActorLocation.X + DistanceX, TargetActorLocation.Y + CurrentOffsetY, TargetActorLocation.Z + CurrentOffsetZ)
+	// On the first TickComponent() with Translation enabled,
+	// the owning Actor will be set to:
+	// FVector(
+	//     TargetActorLocation.X + DistanceX,
+	//     TargetActorLocation.Y + CurrentOffsetY,
+	//     TargetActorLocation.Z + CurrentOffsetZ
+	// )
 	UPROPERTY(EditAnywhere, Category = "Offset configuration")
 	float DistanceX = 100.0f;
 
-	// If true, the owning Actor will be translated step by step according to the Y/Z offset settings
+	// If true, the owning Actor will be translated step by step
+	// according to the Y/Z offset settings
 	UPROPERTY(EditAnywhere, Category = "Offset configuration")
 	bool TranslationActive = true;
 
-	// If true, the owning Actor will be only translated after a "ping" has been sent to Topic set by CommandTopic
+	// If true, the owning Actor will be only translated after
+	// a "ping" has been sent to the topic set by CommandTopic
 	UPROPERTY(EditAnywhere, Category = "Offset configuration")
 	bool WaitForTopicPingBeforeIncrement = false;
 
 	bool DoNextMovement = false;
 
+	// ROS subscription callback.
+	// Initialized in the constructor, not in the class declaration.
+	std::function<void(TSharedPtr<FROSBaseMsg>)> SubscribeCallback;
 
-
-	std::function<void(TSharedPtr<FROSBaseMsg>)> SubscribeCallback = [this](TSharedPtr<FROSBaseMsg> msg) -> void
-	{
-		auto Concrete = StaticCastSharedPtr<ROSMessages::std_msgs::String>(msg);
-		if (Concrete.IsValid())
-		{
-			UE_LOG(LogROS, Log, TEXT("[ULookAtScanningComponent] Command was: %s"), *Concrete->_Data);
-			FString Command = *(Concrete->_Data);
-
-			if (Command == TEXT("reset")) {
-				UE_LOG(LogROS, Log, TEXT("[ULookAtScanningComponent] Resetting procedure"));
-				ResetProcedure();
-			}
-			else if (Command == TEXT("ping")) {
-				DoNextMovement = true;
-			}
-		}
-		return;
-	};
-
-	UTopic *ExampleTopic;
+	UTopic* ExampleTopic;
 
 public:
 	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	virtual void TickComponent(
+		float DeltaTime,
+		ELevelTick TickType,
+		FActorComponentTickFunction* ThisTickFunction
+	) override;
 
-	void ResetProcedure() {
+	void ResetProcedure()
+	{
 		TranslationActive = true;
 		CurrentOffsetY = MinOffSetY;
 		CurrentOffsetZ = MinOffSetZ;

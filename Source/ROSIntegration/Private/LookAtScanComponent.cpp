@@ -4,10 +4,42 @@
 // Sets default values for this component's properties
 ULookAtScanComponent::ULookAtScanComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
+
+	SubscribeCallback = [this](TSharedPtr<FROSBaseMsg> msg) -> void
+		{
+			auto Concrete =
+				StaticCastSharedPtr<ROSMessages::std_msgs::String>(msg);
+
+			if (Concrete.IsValid())
+			{
+				const FString Command = Concrete->_Data;
+
+				// Keep this simple for the UE 5.8 test.
+				UE_LOG(
+					LogROS,
+					Log,
+					TEXT("[ULookAtScanningComponent] Command received")
+				);
+
+				if (Command == TEXT("reset"))
+				{
+					UE_LOG(
+						LogROS,
+						Log,
+						TEXT("[ULookAtScanningComponent] Resetting procedure")
+					);
+
+					ResetProcedure();
+				}
+				else if (Command == TEXT("ping"))
+				{
+					DoNextMovement = true;
+				}
+			}
+		};
 }
+
 
 
 // Called when the game starts
